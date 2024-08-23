@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fire Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  
+</head>
+<body>
+    <div class="container">
+        <h1>Fire Prediction</h1>
+        <form method="POST" action="/">
+            <label for="algorithm">Select Algorithm:</label>
+            <div class="radio-container" onclick="selectAlgorithm('random_forest')">
+                <input type="radio" id="random_forest" name="algorithm" value="random_forest" checked>
+                <label for="random_forest">Random Forest</label>
+            </div>
+            <div class="radio-container" onclick="selectAlgorithm('decision_tree')">
+                <input type="radio" id="decision_tree" name="algorithm" value="decision_tree">
+                <label for="decision_tree">Decision Tree</label>
+            </div>
+            <div class="radio-container" onclick="selectAlgorithm('logistic_regression')">
+                <input type="radio" id="logistic_regression" name="algorithm" value="logistic_regression">
+                <label for="logistic_regression">Logistic Regression</label>
+            </div>
+            <div class="radio-container" onclick="selectAlgorithm('ada_booster')">
+                <input type="radio" id="ada_booster" name="algorithm" value="ada_booster">
+                <label for="ada_booster">Ada Booster</label>
+            </div>
+            <div class="radio-container" onclick="selectAlgorithm('gradient_booster')">
+                <input type="radio" id="gradient_booster" name="algorithm" value="gradient_booster">
+                <label for="gradient_booster">Gradient Booster</label>
+            </div>
+            <div class="radio-container" onclick="selectAlgorithm('multi_layer_percepton')">
+                <input type="radio" id="multi_layer_percepton" name="algorithm" value="multi_layer_percepton">
+                <label for="multi_layer_percepton">Multi Layer Perceptron</label>
+            </div>
+
+            <label for="FFMC">FFMC:</label>
+            <input type="number" step="any" name="FFMC" required>
+            <label for="DMC">DMC:</label>
+            <input type="number" step="any" name="DMC" required>
+            <label for="DC">DC:</label>
+            <input type="number" step="any" name="DC" required>
+            <label for="ISI">ISI:</label>
+            <input type="number" step="any" name="ISI" required>
+            <label for="temp">Temperature:</label>
+            <input type="number" step="any" name="temp" required>
+            <label for="RH">Relative Humidity:</label>
+            <input type="number" step="any" name="RH" required>
+            <label for="wind">Wind:</label>
+            <input type="number" step="any" name="wind" required>
+            <label for="rain">Rain:</label>
+            <input type="number" step="any" name="rain" required>
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction is not none %}
+        <div class="result">
+            <h2>Prediction Result</h2>
+            {% if prediction == 1 %}
+                <p>The model predicts that a fire will occur.</p>
+            {% else %}
+                <p>The model predicts that a fire will not occur.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function selectAlgorithm(algorithm) {
+            // Unselect all radio buttons
+            const radios = document.querySelectorAll('input[name="algorithm"]');
+            radios.forEach(radio => {
+                radio.parentElement.classList.remove('selected');
+                radio.checked = false;
+            });
+
+            // Select the clicked radio button
+            const selectedRadio = document.getElementById(algorithm);
+            selectedRadio.checked = true;
+            selectedRadio.parentElement.classList.add('selected');
+        }
+
+        // Initialize the selected radio button on page load
+        window.onload = function() {
+            const selectedRadio = document.querySelector('input[name="algorithm"]:checked');
+            if (selectedRadio) {
+                selectedRadio.parentElement.classList.add('selected');
+            }
+        };
+    </script>
+</body>
+</html>
+
+
